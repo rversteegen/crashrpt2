@@ -100,7 +100,7 @@ LRESULT CErrorReportDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /
     // Init font for consent string.
     LOGFONT lf;
     memset(&lf, 0, sizeof(LOGFONT));
-    lf.lfHeight = 11;
+    lf.lfHeight = 13;
     lf.lfWeight = FW_NORMAL;
     lf.lfQuality = ANTIALIASED_QUALITY;
     _TCSCPY_S(lf.lfFaceName, 32, _T("Tahoma"));
@@ -163,7 +163,7 @@ LRESULT CErrorReportDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /
     m_Layout.Insert(m_editDesc, TRUE);
     m_Layout.Insert(m_chkRestart);
     m_Layout.Insert(m_statConsent);
-    m_Layout.Insert(m_linkPrivacyPolicy);  
+    m_Layout.Insert(m_linkPrivacyPolicy);
     m_Layout.Insert(m_statCrashRpt);
     m_Layout.Insert(m_statHorzLine, TRUE);
     m_Layout.Insert(m_btnOk);
