@@ -76,7 +76,7 @@ BOOL CErrorReportSender::Init(LPCTSTR szFileMappingName)
 		// Set Right-to-Left reading order
         SetProcessDefaultLayout(LAYOUT_RTL);  
     }
-	
+	/*
 	// Determine whether to record video
 	if(GetCrashInfo()->m_bAddVideo)
 	{
@@ -110,7 +110,8 @@ BOOL CErrorReportSender::Init(LPCTSTR szFileMappingName)
 			return FALSE;
 		}
 	}
-	
+	*/
+
     if(!m_CrashInfo.m_bSendRecentReports)
     {
         // Start crash info collection work assynchronously
@@ -370,7 +371,7 @@ BOOL CErrorReportSender::DoWork(int Action)
         }
 
 		// Encode recorded video to an .OGG file
-		EncodeVideo();
+		//EncodeVideo();
 		
 		if(m_Assync.IsCancelled()) // Check if user-cancelled
         {      
@@ -509,8 +510,8 @@ BOOL CErrorReportSender::TakeDesktopScreenshot()
     // Determine what image format to use (JPG or PNG)
     SCREENSHOT_IMAGE_FORMAT fmt = SCREENSHOT_FORMAT_PNG; // PNG by default
 
-    if((dwFlags&CR_AS_USE_JPEG_FORMAT)!=0)
-        fmt = SCREENSHOT_FORMAT_JPG; // Use JPEG format
+    //if((dwFlags&CR_AS_USE_JPEG_FORMAT)!=0)
+    //    fmt = SCREENSHOT_FORMAT_JPG; // Use JPEG format
 
     // Determine what to use - color or grayscale image
     BOOL bGrayscale = (dwFlags&CR_AS_GRAYSCALE_IMAGE)!=0;
@@ -2629,6 +2630,7 @@ int CErrorReportSender::TerminateAllCrashSenderProcesses()
     return 0;
 }
 
+/*
 BOOL CErrorReportSender::RecordVideo()
 {	
 	// The following method enters the video recording loop
@@ -2767,5 +2769,5 @@ BOOL CErrorReportSender::EncodeVideo()
 
 	return TRUE;
 }
-
+*/
 

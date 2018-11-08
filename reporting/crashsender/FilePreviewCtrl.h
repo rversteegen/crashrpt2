@@ -11,7 +11,9 @@ be found in the Authors.txt file in the root of the source tree.
 #pragma once
 #include "stdafx.h"
 #include "CritSec.h"
-#include "theora/theoradec.h"
+//#include "theora/theoradec.h"
+
+#include "ScreenCap.h"  //for WITHPNG
 
 // Preview mode
 enum PreviewMode
@@ -104,7 +106,7 @@ private:
 
     BOOL LoadBitmapFromBMPFile(LPTSTR szFileName);
     BOOL LoadBitmapFromPNGFile(LPTSTR szFileName);
-    BOOL LoadBitmapFromJPEGFile(LPTSTR szFileName);
+    //BOOL LoadBitmapFromJPEGFile(LPTSTR szFileName);
 
     CCritSec m_csLock;      // Critical section
     HBITMAP m_hBitmap;      // Handle to the bitmap.  
@@ -112,6 +114,7 @@ private:
     BOOL m_bLoadCancelled;  // Load cancel flag
 };
 
+/*
 class CVideo
 {
 public:
@@ -183,6 +186,7 @@ private:
 	int m_nFrameHeight;
 	int m_nFrameInterval;
 };
+*/
 
 // This message is sent by file preview control when file loading is complete
 #define WM_FPC_COMPLETE  (WM_APP+100)
@@ -275,7 +279,7 @@ public:
     void DoPaintEmpty(HDC hDC);
     void DoPaintText(HDC hDC);
     void DoPaintBitmap(HDC hDC);
-	void DoPaintVideo(HDC hDC);
+	//void DoPaintVideo(HDC hDC);
     void DoPaint(HDC hDC);
 
     // Used internally to performs some work assynchronously
@@ -289,7 +293,7 @@ public:
     void LoadBitmap();
 
 	// Laods video assynchronously
-	void LoadVideo();
+	//void LoadVideo();
 
     CString m_sFileName;         // File name.
     PreviewMode m_PreviewMode;   // File preview mode.
@@ -315,7 +319,7 @@ public:
     HANDLE m_hWorkerThread;      // Handle to the worker thread.
     BOOL m_bCancelled;           // Is worker thread cancelled?
     CImage m_bmp;                // Stores the bitmap.
-	CVideo m_video;              // Stores the decoded video.
+	//CVideo m_video;              // Stores the decoded video.
 };
 
 

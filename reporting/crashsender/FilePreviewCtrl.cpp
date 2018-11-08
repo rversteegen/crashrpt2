@@ -164,14 +164,18 @@ BOOL CImage::IsBitmap(FILE* f)
 
 BOOL CImage::IsPNG(FILE* f)
 {
+#ifdef WITHPNG
     png_byte header[8];
     rewind(f);
 
     fread(header, 1, 8, f);
     if(png_sig_cmp(header, 0, 8))  
         return FALSE;
-
+		
     return TRUE;
+#else
+	return FALSE;
+#endif
 }
 
 BOOL CImage::IsJPEG(FILE* f)
@@ -247,16 +251,19 @@ BOOL CImage::Load(CString sFileName)
         fclose(f);
         return LoadBitmapFromBMPFile(sFileName.GetBuffer(0));
     }
+#ifdef WITHPNG
     else if(IsPNG(f))
     {
         fclose(f);
         return LoadBitmapFromPNGFile(sFileName.GetBuffer(0));
     }
+#endif
+	/*
     else if(IsJPEG(f))
     {
         fclose(f);
         return LoadBitmapFromJPEGFile(sFileName.GetBuffer(0));
-    }
+    }*/
 
     fclose(f);
     return FALSE;  
@@ -330,6 +337,7 @@ BOOL CImage::LoadBitmapFromBMPFile(LPTSTR szFileName)
     return TRUE;
 }
 
+#ifdef WITHPNG
 BOOL CImage::LoadBitmapFromPNGFile(LPTSTR szFileName)
 {
     BOOL bStatus = FALSE;
@@ -441,7 +449,7 @@ BOOL CImage::LoadBitmapFromPNGFile(LPTSTR szFileName)
         }
     }
 
-    /* Read rest of file, and get additional chunks in info_ptr - REQUIRED */
+    // Read rest of file, and get additional chunks in info_ptr - REQUIRED
     png_read_end(png_ptr, info_ptr);
 
     bStatus = TRUE;
@@ -476,7 +484,9 @@ cleanup:
 
     return bStatus;
 }
+#endif
 
+/*
 BOOL CImage::LoadBitmapFromJPEGFile(LPTSTR szFileName)
 {
     BOOL bStatus = false;
@@ -580,6 +590,7 @@ cleanup:
 
     return bStatus;
 }
+*/
 
 void CImage::Draw(HDC hDC, LPRECT prcDraw)
 {
@@ -630,6 +641,7 @@ void CImage::Draw(HDC hDC, LPRECT prcDraw)
 // CVideo implementation
 //-----------------------------------------------------------------------------
 
+/*
 CVideo::CVideo()
 {
 	m_pf = NULL;
@@ -814,7 +826,7 @@ BOOL CVideo::LoadOggFile(LPCTSTR szFileName)
 		}			
 	}
 
-	/*Allocate YV12 image */	
+	//Allocate YV12 image
 	m_nFrameWidth = m_info.frame_width;
 	m_nFrameHeight = m_info.frame_height;
 	m_nFrameInterval = (int)((float)m_info.fps_denominator/(float)m_info.fps_numerator*1000);
@@ -1086,7 +1098,7 @@ BOOL CVideo::CreateFrameDIB(DWORD dwWidth, DWORD dwHeight, int nBits)
 
 	return TRUE;
 }
-
+*/
 
 //-----------------------------------------------------------------------------
 // CFilePreviewCtrl implementation
@@ -1188,7 +1200,7 @@ BOOL CFilePreviewCtrl::SetFile(LPCTSTR szFileName, PreviewMode mode, TextEncodin
     m_uNumLines = 0;
     m_nMaxDisplayWidth = 0;
     m_bmp.Destroy();
-	m_video.Destroy();
+	//m_video.Destroy();
 
     if(m_PreviewMode==PREVIEW_HEX)
     {
@@ -1280,11 +1292,11 @@ PreviewMode CFilePreviewCtrl::DetectPreviewMode(LPCTSTR szFileName)
         mode = PREVIEW_IMAGE;
         goto cleanup;
     }
-	else if(CVideo::IsVideoFile(sFileName))
+	/*else if(CVideo::IsVideoFile(sFileName))
     {
         mode = PREVIEW_VIDEO;
         goto cleanup;
-    }
+    }*/
 
     int backslash_pos = sFileName.ReverseFind('\\');
     if(backslash_pos>=0)
@@ -1396,8 +1408,8 @@ void CFilePreviewCtrl::DoInWorkerThread()
         ParseText();
     else if(m_PreviewMode==PREVIEW_IMAGE)
         LoadBitmap();
-	if(m_PreviewMode==PREVIEW_VIDEO)
-        LoadVideo();
+	/*if(m_PreviewMode==PREVIEW_VIDEO)
+        LoadVideo();*/
 }
 
 WCHAR swap_bytes(WCHAR src_char)
@@ -1518,6 +1530,7 @@ void CFilePreviewCtrl::LoadBitmap()
     PostMessage(WM_FPC_COMPLETE);
 }
 
+/*
 void CFilePreviewCtrl::LoadVideo()
 {
 	int nFrame = 0;
@@ -1540,6 +1553,7 @@ void CFilePreviewCtrl::LoadVideo()
 
     PostMessage(WM_FPC_COMPLETE);
 }
+*/
 
 void CFilePreviewCtrl::SetEmptyMessage(CString sText)
 {
@@ -1795,6 +1809,7 @@ void CFilePreviewCtrl::DoPaintBitmap(HDC hDC)
     }
 }
 
+/*
 void CFilePreviewCtrl::DoPaintVideo(HDC hDC)
 {
     RECT rcClient;
@@ -1814,6 +1829,7 @@ void CFilePreviewCtrl::DoPaintVideo(HDC hDC)
         DoPaintEmpty(hDC);
     }
 }
+*/
 
 void CFilePreviewCtrl::DoPaint(HDC hDC)
 {
@@ -1826,10 +1842,11 @@ void CFilePreviewCtrl::DoPaint(HDC hDC)
     {
         DoPaintBitmap(hDC);
     }	
+	/*
 	else if(m_PreviewMode==PREVIEW_VIDEO)
 	{
 		DoPaintVideo(hDC);
-	}
+	}*/
 }
 
 LRESULT CFilePreviewCtrl::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)

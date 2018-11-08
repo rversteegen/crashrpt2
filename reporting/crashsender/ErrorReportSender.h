@@ -142,10 +142,10 @@ private:
     BOOL TakeDesktopScreenshot();
 
 	// This method enters the video recording loop.
-	BOOL RecordVideo();
+	//BOOL RecordVideo();
 
 	// Writes video to a webm file
-	BOOL EncodeVideo();
+	//BOOL EncodeVideo();
 
     // Creates crash dump file.
     BOOL CreateMiniDump();  
@@ -209,7 +209,7 @@ private:
 	// Internal variables
 	static CErrorReportSender* m_pInstance; // Singleton
 	CCrashInfoReader m_CrashInfo;       // Contains crash information.
-	CVideoRecorder m_VideoRec;            // Video recorder.
+	//CVideoRecorder m_VideoRec;            // Video recorder.
 	CString m_sErrorMsg;                // Last error message.
 	HWND m_hWndNotify;                  // Notification window.
     int m_nStatus;                      // Error report sending status.

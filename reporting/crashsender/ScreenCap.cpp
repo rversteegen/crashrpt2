@@ -19,8 +19,10 @@ CScreenCapture::CScreenCapture()
 {
 	// Init internal variables
     m_fp = NULL;
+#ifdef WITHPNG
     m_png_ptr = NULL;
-    m_info_ptr = NULL;
+#endif
+    //m_info_ptr = NULL;
     m_nIdStartFrom = 0;
 }
 
@@ -205,15 +207,18 @@ BOOL CALLBACK CScreenCapture::EnumMonitorsProc(HMONITOR hMonitor, HDC /*hdcMonit
     }
 
     /* Write screenshot bitmap to an image file. */
-
+	
     if(psc->m_fmt==SCREENSHOT_FORMAT_PNG)
     {
+#ifdef WITHPNG
         // Init PNG writer
         sFileName.Format(_T("%s\\screenshot%d.png"), psc->m_sSaveDirName, psc->m_nIdStartFrom++);
         BOOL bInit = psc->PngInit(nWidth, nHeight, psc->m_bGrayscale, sFileName);
         if(!bInit)
             goto cleanup;
+#endif
     }
+	/*
     else if(psc->m_fmt==SCREENSHOT_FORMAT_JPG)
     {
         // Init JPG writer
@@ -221,7 +226,7 @@ BOOL CALLBACK CScreenCapture::EnumMonitorsProc(HMONITOR hMonitor, HDC /*hdcMonit
         BOOL bInit = psc->JpegInit(nWidth, nHeight, psc->m_bGrayscale, psc->m_nJpegQuality, sFileName);
         if(!bInit)
             goto cleanup;
-    }
+    } */
     else if(psc->m_fmt==SCREENSHOT_FORMAT_BMP)
     {
 		// Init BMP header
@@ -256,19 +261,23 @@ BOOL CALLBACK CScreenCapture::EnumMonitorsProc(HMONITOR hMonitor, HDC /*hdcMonit
         int nFetched = GetDIBits(hCompatDC, hBitmap, i, 1, pRowBits, &bmi, DIB_RGB_COLORS);
         if(nFetched!=1)
             break;
-
+		
         if(psc->m_fmt==SCREENSHOT_FORMAT_PNG)
         {
+#ifdef WITHPNG
             BOOL bWrite = psc->PngWriteRow(pRowBits, nRowWidth, psc->m_bGrayscale);
             if(!bWrite)
-                goto cleanup;   
+                goto cleanup;
+#endif
         }
+		/*
         else if(psc->m_fmt==SCREENSHOT_FORMAT_JPG)
         {    
             BOOL bWrite = psc->JpegWriteRow(pRowBits, nRowWidth, psc->m_bGrayscale);
             if(!bWrite)
                 goto cleanup;   
         }
+		*/
         else if(psc->m_fmt==SCREENSHOT_FORMAT_BMP)
         {
 			BOOL bWrite = psc->BmpWriteRow(pRowBits, nRowWidth, psc->m_bGrayscale);
@@ -289,14 +298,16 @@ BOOL CALLBACK CScreenCapture::EnumMonitorsProc(HMONITOR hMonitor, HDC /*hdcMonit
 				break;
 		}
     }
-
+	
     if(psc->m_fmt==SCREENSHOT_FORMAT_PNG)
     {
+#ifdef WITHPNG
         psc->PngFinalize();
+#endif
     }
     else if(psc->m_fmt==SCREENSHOT_FORMAT_JPG)
     {    
-        psc->JpegFinalize();
+        //psc->JpegFinalize();
     }
     else if(psc->m_fmt==SCREENSHOT_FORMAT_BMP)
     {
@@ -343,7 +354,7 @@ void CScreenCapture::GetScreenRect(LPRECT rcScreen)
     rcScreen->right = rcScreen->left + nWidth;
     rcScreen->bottom = rcScreen->top + nHeight;
 }
-
+#ifdef WITHPNG
 BOOL CScreenCapture::PngInit(int nWidth, int nHeight, BOOL bGrayscale, CString sFileName)
 {  
     m_fp = NULL;
@@ -373,7 +384,7 @@ BOOL CScreenCapture::PngInit(int nWidth, int nHeight, BOOL bGrayscale, CString s
         return FALSE;
     }
 
-    /* Error handler*/
+    // Error handler
     if (setjmp(png_jmpbuf(m_png_ptr)))
     {
         png_destroy_write_struct(&m_png_ptr, &m_info_ptr);
@@ -383,10 +394,10 @@ BOOL CScreenCapture::PngInit(int nWidth, int nHeight, BOOL bGrayscale, CString s
 
     png_init_io(m_png_ptr, m_fp);
 
-    /* set the zlib compression level */
+    // set the zlib compression level
     png_set_compression_level(m_png_ptr, Z_BEST_COMPRESSION);
 
-    /* set other zlib parameters */
+    // set other zlib parameters
     png_set_compression_mem_level(m_png_ptr, 8);
     png_set_compression_strategy(m_png_ptr, Z_DEFAULT_STRATEGY);
     png_set_compression_window_bits(m_png_ptr, 15);
@@ -406,7 +417,7 @@ BOOL CScreenCapture::PngInit(int nWidth, int nHeight, BOOL bGrayscale, CString s
 
     png_set_bgr(m_png_ptr);
 
-    /* write the file information */
+    // write the file information
     png_write_info(m_png_ptr, m_info_ptr);
 
     return TRUE;
@@ -439,10 +450,10 @@ BOOL CScreenCapture::PngWriteRow(LPBYTE pRow, int nRowLen, BOOL bGrayscale)
 
 BOOL CScreenCapture::PngFinalize()
 {
-    /* end write */
+    // end write
     png_write_end(m_png_ptr, m_info_ptr);
 
-    /* clean up */
+    // clean up
     png_destroy_write_struct(&m_png_ptr, (png_infopp)&m_info_ptr);
 
     if(m_fp)
@@ -450,15 +461,17 @@ BOOL CScreenCapture::PngFinalize()
 
     return TRUE;
 }
+#endif
 
+/*
 BOOL CScreenCapture::JpegInit(int nWidth, int nHeight, BOOL bGrayscale, int nQuality, CString sFileName)
 {   
-    /* Step 1: allocate and initialize JPEG compression object */
+    // Step 1: allocate and initialize JPEG compression object
 
     m_cinfo.err = jpeg_std_error(&m_jerr);  
     jpeg_create_compress(&m_cinfo);
 
-    /* Step 2: specify data destination (eg, a file) */
+    // Step 2: specify data destination (eg, a file)
 
 #if _MSC_VER < 1400
     m_fp = _tfopen(sFileName, _T("wb"));
@@ -470,22 +483,22 @@ BOOL CScreenCapture::JpegInit(int nWidth, int nHeight, BOOL bGrayscale, int nQua
 
     jpeg_stdio_dest(&m_cinfo, m_fp);
 
-    /* Step 3: set parameters for compression */
-
-    m_cinfo.image_width = nWidth; 	/* image width and height, in pixels */
-    m_cinfo.image_height = nHeight;
-    m_cinfo.input_components = bGrayscale?1:3;		/* # of color components per pixel */
-    m_cinfo.in_color_space = bGrayscale?JCS_GRAYSCALE:JCS_RGB; 	/* colorspace of input image */
-    jpeg_set_defaults(&m_cinfo);
-    jpeg_set_quality(&m_cinfo, nQuality, TRUE /* limit to baseline-JPEG values */);
-
-    /* Step 4: Start compressor */
-
-    jpeg_start_compress(&m_cinfo, TRUE);
-
-    return TRUE;
-}
-
+    // Step 3: set parameters for compression
+	*/
+//    m_cinfo.image_width = nWidth; 	/* image width and height, in pixels */
+//    m_cinfo.image_height = nHeight;
+//    m_cinfo.input_components = bGrayscale?1:3;		/* # of color components per pixel */
+//    m_cinfo.in_color_space = bGrayscale?JCS_GRAYSCALE:JCS_RGB; 	/* colorspace of input image */
+//    jpeg_set_defaults(&m_cinfo);
+//    jpeg_set_quality(&m_cinfo, nQuality, TRUE /* limit to baseline-JPEG values */);
+//
+//    /* Step 4: Start compressor */
+//
+//    jpeg_start_compress(&m_cinfo, TRUE);
+//
+//    return TRUE;
+//}
+/*
 BOOL CScreenCapture::JpegWriteRow(LPBYTE pRow, int nRowLen, BOOL bGrayscale)
 {
     // Convert RGB to BGR
@@ -516,24 +529,24 @@ BOOL CScreenCapture::JpegWriteRow(LPBYTE pRow, int nRowLen, BOOL bGrayscale)
 
     return TRUE;
 }
-
-BOOL CScreenCapture::JpegFinalize()
-{
-    /* Step 6: Finish compression */
-    jpeg_finish_compress(&m_cinfo);
-
-    /* After finish_compress, we can close the output file. */
-    if(m_fp!=NULL)
-        fclose(m_fp);
-    m_fp = NULL;
-
-    /* Step 7: release JPEG compression object */
-
-    /* This is an important step since it will release a good deal of memory. */
-    jpeg_destroy_compress(&m_cinfo);
-
-    return TRUE;
-}
+*/
+//BOOL CScreenCapture::JpegFinalize()
+//{
+//    /* Step 6: Finish compression */
+//    jpeg_finish_compress(&m_cinfo);
+//
+//    /* After finish_compress, we can close the output file. */
+//    if(m_fp!=NULL)
+//        fclose(m_fp);
+//    m_fp = NULL;
+//
+//    /* Step 7: release JPEG compression object */
+//
+//    /* This is an important step since it will release a good deal of memory. */
+//    jpeg_destroy_compress(&m_cinfo);
+//
+//    return TRUE;
+//}
 
 BOOL CScreenCapture::BmpInit(int nWidth, int nHeight, BOOL bGrayscale, CString sFileName)
 {

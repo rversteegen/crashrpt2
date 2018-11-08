@@ -13,10 +13,13 @@ be found in the Authors.txt file in the root of the source tree.
 
 #include "stdafx.h"
 
+#define WITHPNG
 extern "C" {
-#include "png.h"
+#ifdef WITHPNG
+	#include "png.h"
+#endif
 }
-#include "jpeglib.h"
+//#include "jpeglib.h"
 
 // Window information
 struct WindowInfo
@@ -117,7 +120,7 @@ private:
 	static BOOL CALLBACK EnumWndProc(HWND hWnd, LPARAM lParam);
 
     /* PNG management functions */
-
+#ifdef WITHPNG
     // Initializes PNG file header
     BOOL PngInit(int nWidth, int nHeight, BOOL bGrayscale, CString sFileName);
 
@@ -126,9 +129,9 @@ private:
 
     // Closes PNG file
     BOOL PngFinalize();
-
+#endif
     /* JPEG management functions */
-
+	/*
 	// Initializes JPEG file header.
     BOOL JpegInit(int nWidth, int nHeight, BOOL bGrayscale, int nQuality, CString sFileName);
 
@@ -137,7 +140,7 @@ private:
 
 	// Closes PNG file.
     BOOL JpegFinalize();
-
+	*/
 	/* BMP management functions */
 
 	// Initializes BMP file header
@@ -168,10 +171,12 @@ private:
     int m_nJpegQuality;                   // Jpeg quality
     BOOL m_bGrayscale;                    // Create grayscale image or not
     FILE* m_fp;                           // Handle to the file
+#ifdef WITHPNG
     png_structp m_png_ptr;                // libpng stuff
     png_infop m_info_ptr;                 // libpng stuff
-    struct jpeg_compress_struct m_cinfo;  // libjpeg stuff
-    struct jpeg_error_mgr m_jerr;         // libjpeg stuff
+#endif
+    //struct jpeg_compress_struct m_cinfo;  // libjpeg stuff
+    //struct jpeg_error_mgr m_jerr;         // libjpeg stuff
     std::vector<MonitorInfo> m_monitor_list; // The list of monitor devices   
 };
 
