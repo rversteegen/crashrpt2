@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "tests\Tests_vs2010.vcxproj", "{C6941433-40EA-4307-A0A2-39BFB844367E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C610F50E-1013-46F0-AE20-4E918654B40F} = {C610F50E-1013-46F0-AE20-4E918654B40F}
@@ -12,9 +12,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "tests\Tests_vs2010
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrashRpt", "reporting\crashrpt\CrashRpt_vs2010.vcxproj", "{9BE99719-AA32-4463-A011-B61D55F020D6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{939312D6-690A-4103-92C5-4D89025BF10A} = {939312D6-690A-4103-92C5-4D89025BF10A}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrashSender", "reporting\crashsender\CrashSender_vs2010.vcxproj", "{939312D6-690A-4103-92C5-4D89025BF10A}"
 	ProjectSection(ProjectDependencies) = postProject

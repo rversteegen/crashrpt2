@@ -143,6 +143,14 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CrashSender$(CrashRptVer)d</TargetName>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\bin\$(Platform)\</OutDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">CrashSender$(CrashRptVer)</TargetName>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\WinDDK\7600.16385.1\inc\atl71;</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\WinDDK\7600.16385.1\lib\ATL\i386;</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\WinDDK\7600.16385.1\inc\atl71;</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\WinDDK\7600.16385.1\lib\ATL\i386;</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\WinDDK\7600.16385.1\inc\atl71;</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\WinDDK\7600.16385.1\lib\ATL\i386;</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\WinDDK\7600.16385.1\inc\atl71;</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib;C:\WinDDK\7600.16385.1\lib\ATL\i386;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -218,7 +226,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\wtl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libtheora.lib;libogg.lib;jpeg.lib;tinyxml.lib;zlib.lib;libpng.lib;minizip.lib;WS2_32.lib;Dnsapi.lib;wininet.lib;Rpcrt4.lib;psapi.lib;Gdi32.lib;shell32.lib;Comdlg32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libpng.lib;tinyxml.lib;zlib.lib;minizip.lib;WS2_32.lib;Dnsapi.lib;wininet.lib;Rpcrt4.lib;psapi.lib;Gdi32.lib;shell32.lib;Comdlg32.lib;version.lib;%(AdditionalDependencies);atlthunk.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\lib%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)\CrashSender.pdb</ProgramDatabaseFile>
@@ -429,8 +437,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="VideoRec.cpp" />
-    <ClCompile Include="VideoRecDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\crashrpt\Utility.h" />
@@ -451,12 +457,9 @@
     <ClInclude Include="SequenceLayout.h" />
     <ClInclude Include="smtpclient.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="VideoRec.h" />
-    <ClInclude Include="VideoRecDlg.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\CrashSender.ico" />
-    <None Include="res\VideoRec.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CrashSender.rc" />
