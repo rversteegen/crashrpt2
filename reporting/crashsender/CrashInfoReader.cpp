@@ -1036,14 +1036,15 @@ int CCrashInfoReader::ParseCrashDescription(CString sFileName, BOOL bParseFileIt
 
 BOOL CCrashInfoReader::UpdateUserInfo(CString sEmail, CString sDesc)
 {
-	// This method validates user-provided Email and problem description
+	// <s>This method validates user-provided Email and problem description</s>
 	// and (if valid) uptdates internal fields.
 	BOOL bResult = TRUE;
 
 	// If an email address was entered, verify that
     // it [1] contains a @ and [2] the last . comes
     // after the @.
-    
+
+        /*
     if (sEmail.GetLength()!=0 &&
         (sEmail.Find(_T('@')) < 0 ||
         sEmail.ReverseFind(_T('.')) < 
@@ -1053,6 +1054,7 @@ BOOL CCrashInfoReader::UpdateUserInfo(CString sEmail, CString sDesc)
 		bResult = FALSE;
     }
 	else
+        */
 	{
 		// Update email
 		GetReport(0)->m_sEmailFrom = sEmail;
