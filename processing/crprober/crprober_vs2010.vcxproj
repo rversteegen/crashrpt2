@@ -125,6 +125,8 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">crprober</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">crprober</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">crprober</TargetName>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\WinDDK\7600.16385.1\inc\atl71;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\WinDDK\7600.16385.1\lib\ATL\i386;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSdkDir)lib;$(FrameworkSDKDir)\lib</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -170,7 +172,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>

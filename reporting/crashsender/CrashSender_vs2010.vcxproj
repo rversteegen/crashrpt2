@@ -211,7 +211,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\libogg\include;$(SolutionDir)thirdparty\libtheora\include;$(SolutionDir)reporting\crashrpt;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\zlib;$(SolutionDir)thirdparty\minizip;$(SolutionDir)include;$(SolutionDir)thirdparty\libpng;$(SolutionDir)thirdparty\wtl;$(SolutionDir)thirdparty\dbghelp\include;$(SolutionDir)thirdparty\jpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;STRICT;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FloatingPointExceptions>false</FloatingPointExceptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>

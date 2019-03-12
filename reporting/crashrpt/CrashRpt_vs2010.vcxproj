@@ -134,6 +134,8 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CrashRpt$(CrashRptVer)</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">CrashRptLIB</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">CrashRptLIB</TargetName>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\WinDDK\7600.16385.1\inc\atl71;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\WinDDK\7600.16385.1\lib\ATL\i386;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -151,7 +153,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)reporting\crashsender;$(SolutionDir)thirdparty\tinyxml;$(SolutionDir)thirdparty\zlib;$(SolutionDir)thirdparty\libpng;$(SolutionDir)thirdparty\wtl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;STRICT;CRASHRPT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
